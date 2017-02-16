@@ -1,0 +1,17 @@
+{
+  "name": "magento-bulk-import",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "csv": "^1.1.1",
+    "csv-parse": "^1.2.0",
+    "faker": "^3.1.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
