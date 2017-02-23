@@ -28,31 +28,50 @@ var stringifier = csv.stringify({ header: true });
         csv.stringify(output, {header: true, delimiter: ','}, function (err, data) {
           stream.write(data);
 
-          function loop(promise, fn) {
-            return promise.then(fn).then(function (wrapper) {
-              output[0] = getFakeProduct(output[0]);
-              csv.stringify(output, {header: false, delimiter: ','}, function (err, data) {
-                stream.write(data);
-              });
-              return !wrapper.done ? loop(q(wrapper.value), fn) : wrapper.value;
-            });
-          }
-
-          loop(q.resolve(1), function (i) {
-            console.log(i);
-            return {
-              done: i > 10,
-              value: ++i
-            };
-          }).catch(function (err) {
-            console.log(err);
-          }).
-          done(function () {
+          output[0] = getFakeProduct(output[0]);
+          csv.stringify(output, {header: false, delimiter: ','}, function (err, data) {
+            stream.write(data);
             stream.end();
           });
 
+
+
+          // function loop(promise, fn) {
+          //   return promise.then(fn).then(function (wrapper) {
+          //     output[wrapper.value] = getFakeProduct(output[0]);
+          //     csv.stringify(output, {header: false, delimiter: ','}, function (err, data) {
+          //       stream.write(data);
+          //     });
+          //     return !wrapper.done ? loop(q(wrapper.value), fn) : wrapper.value;
+          //   });
+          // }
+          //
+          // loop(q.resolve(1), function (i) {
+          //   console.log(i);
+          //   return {
+          //     done: i > 10,
+          //     value: ++i
+          //   };
+          // }).catch(function (err) {
+          //   console.log(err);
+          // }).
+          // done(function () {
+          //   stream.end();
+          // });
+
         });
       });
+
+      function loop(output){
+        writeLine(output);
+      }
+
+      function writeLine(output){
+        output[0] = getFakeProduct(output[0]);
+        csv.stringify(output, {header: false, delimiter: ','}, function (err, data) {
+          stream.write(data);
+        });
+      }
     });
   });
 
